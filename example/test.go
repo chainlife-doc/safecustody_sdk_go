@@ -12,9 +12,9 @@ func main() {
 	api := new(sdk.Api)
 	api.Host = ""
 	api.SetUserInfo(
-		"",
-		"",
-		"26",
+		"",   //appid
+		"",   //salt
+		"26", //userid
 	)
 
 	//单个币种查询

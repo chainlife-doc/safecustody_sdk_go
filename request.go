@@ -68,8 +68,11 @@ func (a *Api) request(url string, d param, dataTypes interface{}) error {
 	}
 	if dataTypes != nil {
 		err = unmarshal(r.Data.Data, &dataTypes)
+		if err != nil {
+			sdkError(err.Error())
+		}
 	}
-	return sdkError(err.Error())
+	return nil
 }
 
 func unmarshal(data interface{}, dataType interface{}) (err error) {
