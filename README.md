@@ -28,7 +28,9 @@
     ```        
 #### 源码安装 
     
-- 直接从GitHup下载源码,把整个`safecustody_sdk_go`项目放入您的项目目录中,然后在代码里`import sdk "safecustody_sdk_go"`
+- 直接从GitHup下载源码,把整个`safecustody_sdk_go`项目放入您的项目目录中,  
+    然后在代码里`import sdk "safecustody_sdk_go"`     
+    
     ```
     Project //项目
       ├── main.go //代码中写入 import sdk "safecustody_sdk_go"
