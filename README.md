@@ -1,22 +1,50 @@
-# api_sdk
+# 赛福托管钱包API GO-SDK
 
 
-#### 安装SDK
+### 安装SDK
 
-- 我们推荐mod安装 ,在项目的根目录创建mod文件  
-    ```go mod init ProjectName```
-- 代码里面导入api包
-    ```bash
+#### mod安装
+- 我们推荐mod安装 ,在项目的根目录创建[mod](https://studygolang.com/articles/20716)文件  
+    ```go mod init project```
+- 创建main.go,在代码里面导入api包
+    ```go
     import sdk "github.com/chainlife-doc/safecustody_sdk_go"
     ```   
-
 - 在go.mod目录下,命令行输入  
     ```go mod tidy```
-
+   
+- 具体操作  
+  ```
+  +---------------------------------------------------------------------------------------------+
+  |~:cmd> mkdir project                                                                         |
+  |~:cmd> cd project                                                                            |
+  |./project:cmd> go mod init project                                                           |
+  |./project:cmd> touch main.go                                                                 |
+  |./project:cmd> echo "package main" > main.go                                                 |
+  |./project:cmd> echo 'import sdk "github.com/chainlife-doc/safecustody_sdk_go"' >> main.go    |
+  |./project:cmd> go mod tidy                                                                   |
+  |                                                                                             |
+  +──-------------------------------------------------------------------------------------------+ 
+    ```        
+#### 源码安装 
+    
+- 直接从GitHup下载源码,把整个`safecustody_sdk_go`项目放入您的项目目录中,然后在代码里`import sdk "safecustody_sdk_go"`
+    ```
+    Project //项目
+      ├── main.go //代码中写入 import sdk "safecustody_sdk_go"
+      ├── ...
+      └── safecustody_sdk_go  //safecustody_sdk_go与main.go同级
+          ├── sdk.go       
+          └── ...   
+    ```
 # 例子
 
-#### 创建sdkApi  
+#### 创建sdkApi`mod方式`  
  ```
+    package main
+    
+    import sdk "github.com/chainlife-doc/safecustody_sdk_go"
+    
     api := new(sdk.Api)
     api.Host = "https://www.xxxx.com/"  //api域名
     api.SetUserInfo(
@@ -26,6 +54,23 @@
      )       
 
 ``` 
+
+#### 创建sdkApi`源码方式`  
+ ```
+    package main
+    
+    import sdk "safecustody_sdk_go"
+    
+    api := new(sdk.Api)
+    api.Host = "https://www.xxxx.com/"  //api域名
+    api.SetUserInfo(
+        "", //appid
+        "", //salt
+        "", //userid
+     )       
+
+``` 
+
 #### 单个币种查询
 ```go
 r1, err := api.QueryCoinConf("btc")
