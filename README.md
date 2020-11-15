@@ -23,7 +23,7 @@
   |./project:cmd> echo "package main" > main.go                                                 |
   |./project:cmd> echo 'import sdk "github.com/chainlife-doc/safecustody_sdk_go"' >> main.go    |
   |./project:cmd> go mod tidy                                                                   |
-  |                                                                                             |
+  |./project:cmd>                                                                               |
   +──-------------------------------------------------------------------------------------------+ 
     ```        
 #### 源码安装 
