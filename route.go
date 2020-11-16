@@ -291,7 +291,6 @@ type SubmitWithdrawBody struct {
 //amount	float	提币数量
 //memo		string	用户备注,内容自定义（会记录到区块链上）
 //usertags	string	用户标签，内容自定义 （不会记录到区块链上）
-//sign		string	提币请求签名, md5("appid_salt_userid_timestamp_addr_memo_usertags")
 type SubmitWithdraw struct {
 	Subuserid string  `json:"subuserid"`
 	Chain     string  `json:"chain"`
