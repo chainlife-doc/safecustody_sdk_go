@@ -260,8 +260,6 @@ func (a *Api) QueryIsInternalAddr(param QueryIsInternalAddr) (bool, error) {
 //status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
-//fee_coin		string	手续费币种
-//fee_amount	string	手续费数量
 //usertags		string	用户标签
 //time			string	订单创建时间
 type SubmitWithdrawBody struct {
@@ -277,8 +275,6 @@ type SubmitWithdrawBody struct {
 	Status     int    `json:"status"`
 	StatusDesc string `json:"status_desc"`
 	Txid       string `json:"txid"`
-	FeeCoin    string `json:"fee_coin"`
-	FeeAmount  string `json:"fee_amount"`
 	Usertags   string `json:"usertags"`
 	Time       string `json:"time"`
 }
@@ -352,8 +348,6 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 //status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
-//fee_coin		string	手续费币种
-//fee_amount	string	手续费数量
 //usertags		string	用户标签
 //time			string	订单创建时间
 type QueryWithdrawStatusBody struct {
@@ -369,8 +363,6 @@ type QueryWithdrawStatusBody struct {
 	Status     int    `json:"status"`
 	StatusDesc string `json:"status_desc"`
 	Txid       string `json:"txid"`
-	FeeCoin    string `json:"fee_coin"`
-	FeeAmount  string `json:"fee_amount"`
 	Usertags   string `json:"usertags"`
 	Time       string `json:"time"`
 }
@@ -417,8 +409,6 @@ func (a *Api) QueryWithdrawStatus(param QueryWithdrawStatus) (QueryWithdrawStatu
 //status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
-//fee_coin		string	手续费币种
-//fee_amount	string	手续费数量
 //usertags		string	用户标签
 //time			string	订单创建时间
 type QueryWithdrawHistoryBody struct {
@@ -434,8 +424,6 @@ type QueryWithdrawHistoryBody struct {
 	Status     int    `json:"status"`
 	StatusDesc string `json:"status_desc"`
 	Txid       string `json:"txid"`
-	FeeCoin    string `json:"fee_coin"`
-	FeeAmount  string `json:"fee_amount"`
 	Usertags   string `json:"usertags"`
 	Time       string `json:"time"`
 }
