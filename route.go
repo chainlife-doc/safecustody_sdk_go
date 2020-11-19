@@ -63,8 +63,8 @@ func (a *Api) QueryCoinConf(coin string) ([]QueryCoinConfBody, error) {
 }
 
 //返回查询余额的包体
-//chain	string	主链
-//coin	string	币名
+//chain		string	主链
+//coin		string	币名
 //balance	string	余额数量
 //as_cny	string	余额以cnc为单位表示的数量
 type QueryBalanceBody struct {
@@ -248,42 +248,48 @@ func (a *Api) QueryIsInternalAddr(param QueryIsInternalAddr) (bool, error) {
 }
 
 //提交提币工单响应包体
-//id			int		序号
-//subuserid		string	调用端子账号，字符串，平台不管其含义
-//chain			string	主链
-//coin			string	币名
-//from_addr		string	提币发送地址
-//addr			string	提币接收地址
-//amount		string	提币数量
-//amount_sent	string	实际发送的提币数量
-//memo			string	提币备注，比如用户ID之类的，可以是任意内容
-//status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-//status_desc	string	状态描述
-//txid			string	链上的交易ID
-//usertags		string	用户标签
-//time			string	订单创建时间
+//id				int		序号
+//subuserid			string	调用端子账号，字符串，平台不管其含义
+//chain				string	主链
+//coin				string	币名
+//from_addr			string	提币发送地址
+//addr				string	提币接收地址
+//amount			string	提币数量
+//amount_sent		string	实际发送的提币数量
+//memo				string	提币备注，比如用户ID之类的，可以是任意内容
+//status			int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+//status_desc		string	状态描述
+//txid				string	链上的交易ID
+//fee_coin      	string  手续费币种
+//fee_coin_chain 	string  手续费币种所在链
+//fee_amount    	string  手续费数量
+//usertags			string	用户标签
+//time				string	订单创建时间
 type SubmitWithdrawBody struct {
-	Id         int64  `json:"id"`
-	Subuserid  string `json:"subuserid"`
-	Chain      string `json:"chain"`
-	Coin       string `json:"coin"`
-	FromAddr   string `json:"from_addr"`
-	Addr       string `json:"addr"`
-	Amount     string `json:"amount"`
-	AmountSent string `json:"amount_sent"`
-	Memo       string `json:"memo"`
-	Status     int    `json:"status"`
-	StatusDesc string `json:"status_desc"`
-	Txid       string `json:"txid"`
-	Usertags   string `json:"usertags"`
-	Time       string `json:"time"`
+	Id           int64  `json:"id"`
+	Subuserid    string `json:"subuserid"`
+	Chain        string `json:"chain"`
+	Coin         string `json:"coin"`
+	FromAddr     string `json:"from_addr"`
+	Addr         string `json:"addr"`
+	Amount       string `json:"amount"`
+	AmountSent   string `json:"amount_sent"`
+	Memo         string `json:"memo"`
+	Status       int    `json:"status"`
+	StatusDesc   string `json:"status_desc"`
+	Txid         string `json:"txid"`
+	FeeCoin      string `json:"fee_coin"`
+	FeeCoinChain string `json:"fee_coin_chain"`
+	FeeAmount    string `json:"fee_amount"`
+	Usertags     string `json:"usertags"`
+	Time         string `json:"time"`
 }
 
 //提交提币工单请求参数
 //subuserid	string	调用端子账号，字符串，平台不管其含义
 //chain		string	主链
 //coin		string	币名
-//addr		int	提币目标地址
+//addr		int		提币目标地址
 //amount	float	提币数量
 //memo		string	用户备注,内容自定义（会记录到区块链上）
 //usertags	string	用户标签，内容自定义 （不会记录到区块链上）
@@ -336,7 +342,7 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 }
 
 //查询提币工单状态响应参数
-//id			int	内部充值序号
+//id			int		内部充值序号
 //subuserid		string	调用端子账号，字符串，平台不管其含义
 //chain			string	哪条主链上充值进来的
 //coin			string	币名
@@ -345,7 +351,7 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 //amount		string	充值数量
 //amount_sent	string	实际发送的提币数量
 //memo			string	提币备注，比如用户ID之类的，可以是任意内容
-//status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+//status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
 //usertags		string	用户标签
@@ -397,7 +403,7 @@ func (a *Api) QueryWithdrawStatus(param QueryWithdrawStatus) (QueryWithdrawStatu
 }
 
 //查询提币记录响应参数
-//id			int	内部充值序号
+//id			int		内部充值序号
 //subuserid		string	调用端子账号，字符串，平台不管其含义
 //chain			string	哪条主链上充值进来的
 //coin			string	币名
@@ -406,7 +412,7 @@ func (a *Api) QueryWithdrawStatus(param QueryWithdrawStatus) (QueryWithdrawStatu
 //amount		string	充值数量
 //amount_sent	string	实际发送的提币数量
 //memo			string	提币备注，比如用户ID之类的，可以是任意内容
-//status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+//status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
 //usertags		string	用户标签
@@ -432,8 +438,8 @@ type QueryWithdrawHistoryBody struct {
 //subuserid		string	子账号，平台不管其含义（空字符串默认不做筛选）
 //chain			string	主链 (空字符串默认不做筛选)
 //coin			string	币名 (空字符串默认不做筛选)
-//fromid		int	从哪个充值序号开始，值大于等于1,查询结果包含fromId对应的充值记录
-//limit			int	最多查询多少条记录，包含fromid这条记录
+//fromid		int		从哪个充值序号开始，值大于等于1,查询结果包含fromId对应的充值记录
+//limit			int		最多查询多少条记录，包含fromid这条记录
 type QueryWithdrawHistory struct {
 	Subuserid string `json:"subuserid"`
 	Chain     string `json:"chain"`

@@ -351,35 +351,41 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 提交提币工单
 - Response
     ```go
-    //id			int		序号
-    //subuserid		string	调用端子账号，字符串，平台不管其含义
-    //chain			string	主链
-    //coin			string	币名
-    //from_addr		string	提币发送地址
-    //addr			string	提币接收地址
-    //amount		string	提币数量
-    //amount_sent	        string	实际发送的提币数量
-    //memo			string	提币备注，比如用户ID之类的，可以是任意内容
-    //status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-    //status_desc	        string	状态描述
-    //txid			string	链上的交易ID
-    //usertags		string	用户标签
-    //time			string	订单创建时间
+    //id			    int		序号
+    //subuserid		    string	调用端子账号，字符串，平台不管其含义
+    //chain			    string	主链
+    //coin			    string	币名
+    //from_addr		    string	提币发送地址
+    //addr			    string	提币接收地址
+    //amount		    string	提币数量
+    //amount_sent	    string	实际发送的提币数量
+    //memo			    string	提币备注，比如用户ID之类的，可以是任意内容
+    //status		    int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+    //status_desc	    string	状态描述
+    //txid			    string	链上的交易ID
+    //fee_coin          string  手续费币种
+    //fee_coin_chain 	string  手续费币种所在链
+    //fee_amount    	string  手续费数量
+    //usertags		    string	用户标签
+    //time			    string	订单创建时间
     type SubmitWithdrawBody struct {
-        Id         int64  `json:"id"`
-        Subuserid  string `json:"subuserid"`
-        Chain      string `json:"chain"`
-        Coin       string `json:"coin"`
-        FromAddr   string `json:"from_addr"`
-        Addr       string `json:"addr"`
-        Amount     string `json:"amount"`
-        AmountSent string `json:"amount_sent"`
-        Memo       string `json:"memo"`
-        Status     int    `json:"status"`
-        StatusDesc string `json:"status_desc"`
-        Txid       string `json:"txid"`
-        Usertags   string `json:"usertags"`
-        Time       string `json:"time"`
+        Id            int64  `json:"id"`
+        Subuserid     string `json:"subuserid"`
+        Chain         string `json:"chain"`
+        Coin          string `json:"coin"`
+        FromAddr      string `json:"from_addr"`
+        Addr          string `json:"addr"`
+        Amount        string `json:"amount"`
+        AmountSent    string `json:"amount_sent"`
+        Memo          string `json:"memo"`
+        Status        int    `json:"status"`
+        StatusDesc    string `json:"status_desc"`
+        FeeCoin       string `json:"fee_coin"`
+        FeeCoinChain  string `json:"fee_coin_chain"`
+        FeeAmount     string `json:"fee_amount"`
+        Txid          string `json:"txid"`
+        Usertags      string `json:"usertags"`
+        Time          string `json:"time"`
     }
     ```
 - Request  
