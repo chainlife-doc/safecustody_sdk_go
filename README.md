@@ -164,14 +164,14 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 
 - Response
     ```go
-    //chain						string	链名
-    //coin						string	币名
+    //chain					string	链名
+    //coin					string	币名
     //coin_precision			        int		币的精度,也就是该币支持多少位小数
-    //min_deposit_amount		                string	最小充值数量
-    //min_withdraw_amount		                string	最小提币数量
+    //min_deposit_amount		        string	最小充值数量
+    //min_withdraw_amount		        string	最小提币数量
     //deposit_enabled			        int		充值是否启用: 1=启用,0=未启用
     //withdraw_enabled			        int		提币是否启用: 1=启用,0=未启用
-    //deposit_confirm_count		                int		充值入账确认数
+    //deposit_confirm_count		        int		充值入账确认数
     //need_memo					int		充值是否需要备注: 1=充值需要备注,0=充值不需要备注
     type QueryCoinConfBody struct {
     	Chain               string `json:"chain"`
@@ -197,15 +197,15 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 查询公共币种信息
 - Response 
     ```go
-    //chain						string	链名
-    //coin						string	币名
-    //coin_precision			        int		币的精度,也就是该币支持多少位小数
-    //min_deposit_amount		                string	最小充值数量
-    //min_withdraw_amount		                string	最小提币数量
-    //deposit_enabled			        int		充值是否启用: 1=启用,0=未启用
-    //withdraw_enabled			        int		提币是否启用: 1=启用,0=未启用
-    //deposit_confirm_count		                int		充值入账确认数
-    //need_memo					int		充值是否需要备注: 1=充值需要备注,0=充值不需要备注
+    //chain					string	链名
+    //coin					string	币名
+    //coin_precision			        int	币的精度,也就是该币支持多少位小数
+    //min_deposit_amount		        string	最小充值数量
+    //min_withdraw_amount		        string	最小提币数量
+    //deposit_enabled			        int	充值是否启用: 1=启用,0=未启用
+    //withdraw_enabled			        int	提币是否启用: 1=启用,0=未启用
+    //deposit_confirm_count		        int	充值入账确认数
+    //need_memo					int	充值是否需要备注: 1=充值需要备注,0=充值不需要备注
     type QueryCoinConfBody struct {
         Chain               string `json:"chain"`
         Coin                string `json:"coin"`
@@ -226,8 +226,8 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 查询余额
  - Response
      ```go
-    //chain	        string	主链
-    //coin	        string	币名
+    //chain	string	主链
+    //coin	string	币名
     //balance	string	余额数量
     //as_cny	string	余额以cnc为单位表示的数量
     type QueryBalanceBody struct {
@@ -253,11 +253,11 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 获取充值地址
  - Response
      ```go
-    //chain		string	主链
-    //coin		string	币名
+    //chain	string	主链
+    //coin	string	币名
     //subuserid	string	调用端子账号，字符串，平台不管其含义
-    //addr		string	充币地址
-    //needmemo	int		0:不需要，1需要，填写的memo字符串格式: "userid#subuserid#id"（id是申请的appid序号）
+    //addr	string	充币地址
+    //needmemo	int	0:不需要，1需要，填写的memo字符串格式: "userid#subuserid#id"（id是申请的appid序号）
     type GetDepositAddrBody struct {
     	Chain     string `json:"chain"`
     	Coin      string `json:"coin"`
@@ -268,8 +268,8 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
     ```
 - request
     ```go
-    //chain		string	主链
-    //coin		string	币名
+    //chain	string	主链
+    //coin	string	币名
     //subuserid	string	调用端子账号，字符串，平台不管其含义
     type AddrCoins struct {
     	Coin      string `json:"coin"`
@@ -286,16 +286,16 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 获取充值记录
 - Response
     ```go
-    //id		int		内部充值序号
+    //id	int	内部充值序号
     //subuserid	string	调用端子账号，字符串，平台不管其含义
-    //chain		string	哪条主链上充值进来的
-    //coin		string	币名
+    //chain	string	哪条主链上充值进来的
+    //coin	string	币名
     //from_addr	string	订单发送地址
-    //addr		string	订单接收地址
-    //txid		string	交易ID
+    //addr	string	订单接收地址
+    //txid	string	交易ID
     //amount	string	充值数量
     //balance	string	充值后余额
-    //time		string	订单生成时间
+    //time	string	订单生成时间
     type GetDepositHistoryBody struct {
         Id        int64  `json:"id"`
         Subuserid string `json:"subuserid"`
@@ -312,10 +312,10 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 - Request
     ```go
     //subuserid	string	子账号，平台不管其含义（空字符串默认不做筛选）
-    //chain		string	主链 (空字符串默认不做筛选)
-    //coin		string	币名 (空字符串默认不做筛选)
+    //chain	string	主链 (空字符串默认不做筛选)
+    //coin	string	币名 (空字符串默认不做筛选)
     //fromid	int	从哪个充值序号开始，值大于等于1,查询结果包含fromId对应的充值记录
-    //limit		int	最多查询多少条记录，包含fromid这条记录
+    //limit	int	最多查询多少条记录，包含fromid这条记录
     type History struct {
         Subuserid string `json:"subuserid"`
         Chain     string `json:"chain"`
@@ -351,23 +351,23 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 提交提币工单
 - Response
     ```go
-    //id			    int		序号
-    //subuserid		    string	调用端子账号，字符串，平台不管其含义
-    //chain			    string	主链
-    //coin			    string	币名
-    //from_addr		    string	提币发送地址
-    //addr			    string	提币接收地址
-    //amount		    string	提币数量
-    //amount_sent	    string	实际发送的提币数量
-    //memo			    string	提币备注，比如用户ID之类的，可以是任意内容
-    //status		    int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-    //status_desc	    string	状态描述
-    //txid			    string	链上的交易ID
+    //id		int		序号
+    //subuserid		string	调用端子账号，字符串，平台不管其含义
+    //chain		string	主链
+    //coin		string	币名
+    //from_addr		string	提币发送地址
+    //addr		string	提币接收地址
+    //amount		string	提币数量
+    //amount_sent	string	实际发送的提币数量
+    //memo		string	提币备注，比如用户ID之类的，可以是任意内容
+    //status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+    //status_desc	string	状态描述
+    //txid		string	链上的交易ID
     //fee_coin          string  手续费币种
     //fee_coin_chain 	string  手续费币种所在链
     //fee_amount    	string  手续费数量
-    //usertags		    string	用户标签
-    //time			    string	订单创建时间
+    //usertags		string	用户标签
+    //time		string	订单创建时间
     type SubmitWithdrawBody struct {
         Id            int64  `json:"id"`
         Subuserid     string `json:"subuserid"`
@@ -391,11 +391,11 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 - Request  
     ````go
     //subuserid	string	调用端子账号，字符串，平台不管其含义
-    //chain		string	主链
-    //coin		string	币名
-    //addr		int	提币目标地址
+    //chain	string	主链
+    //coin	string	币名
+    //addr	int	提币目标地址
     //amount	float	提币数量
-    //memo		string	用户备注,内容自定义（会记录到区块链上）
+    //memo	string	用户备注,内容自定义（会记录到区块链上）
     //usertags	string	用户标签，内容自定义 （不会记录到区块链上）
     type SubmitWithdraw struct {
         Subuserid string  `json:"subuserid"`
@@ -415,11 +415,11 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 - Request
     ```go
     //subuserid	string	调用端子账号，字符串，平台不管其含义
-    //chain		string	主链
-    //coin		string	币名
-    //addr		int	提币目标地址
+    //chain	string	主链
+    //coin	string	币名
+    //addr	int	提币目标地址
     //amount	float	提币数量
-    //memo		string	用户备注,内容自定义（会记录到区块链上）
+    //memo	string	用户备注,内容自定义（会记录到区块链上）
     //usertags	string	用户标签，内容自定义 （不会记录到区块链上）
     type SubmitWithdraw struct {
         Subuserid string  `json:"subuserid"`
@@ -438,20 +438,20 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 查询提币工单状态
 - Response
     ```go
-    //id			int	内部充值序号
+    //id		int	内部充值序号
     //subuserid		string	调用端子账号，字符串，平台不管其含义
-    //chain			string	哪条主链上充值进来的
-    //coin			string	币名
+    //chain		string	哪条主链上充值进来的
+    //coin		string	币名
     //from_addr		string	提币发送地址
-    //addr			string	提币接收地址
+    //addr		string	提币接收地址
     //amount		string	充值数量
-    //amount_sent	        string	实际发送的提币数量
-    //memo			string	提币备注，比如用户ID之类的，可以是任意内容
+    //amount_sent	string	实际发送的提币数量
+    //memo		string	提币备注，比如用户ID之类的，可以是任意内容
     //status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-    //status_desc	        string	状态描述
-    //txid			string	链上的交易ID
+    //status_desc	string	状态描述
+    //txid		string	链上的交易ID
     //usertags		string	用户标签
-    //time			string	订单创建时间
+    //time		string	订单创建时间
     type QueryWithdrawStatusBody struct {
         Id         int    `json:"id"`
         Subuserid  string `json:"subuserid"`
@@ -488,20 +488,20 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 查询提币记录
 - Response
     ```go
-    //id			int	内部充值序号
+    //id		int	内部充值序号
     //subuserid		string	调用端子账号，字符串，平台不管其含义
-    //chain			string	哪条主链上充值进来的
-    //coin			string	币名
+    //chain		string	哪条主链上充值进来的
+    //coin		string	币名
     //from_addr		string	提币发送地址
-    //addr			string	提币接收地址
+    //addr		string	提币接收地址
     //amount		string	充值数量
-    //amount_sent	        string	实际发送的提币数量
-    //memo			string	提币备注，比如用户ID之类的，可以是任意内容
+    //amount_sent	string	实际发送的提币数量
+    //memo		string	提币备注，比如用户ID之类的，可以是任意内容
     //status		int	提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-    //status_desc	        string	状态描述
-    //txid			string	链上的交易ID
+    //status_desc	string	状态描述
+    //txid		string	链上的交易ID
     //usertags		string	用户标签
-    //time			string	订单创建时间
+    //time		string	订单创建时间
     type QueryWithdrawHistoryBody struct {
         Id         int    `json:"id"`
         Subuserid  string `json:"subuserid"`
@@ -522,10 +522,10 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 - Request
     ```go
     //subuserid		string	子账号，平台不管其含义（空字符串默认不做筛选）
-    //chain			string	主链 (空字符串默认不做筛选)
-    //coin			string	币名 (空字符串默认不做筛选)
+    //chain		string	主链 (空字符串默认不做筛选)
+    //coin		string	币名 (空字符串默认不做筛选)
     //fromid		int	从哪个充值序号开始，值大于等于1,查询结果包含fromId对应的充值记录
-    //limit			int	最多查询多少条记录，包含fromid这条记录
+    //limit		int	最多查询多少条记录，包含fromid这条记录
     type QueryWithdrawHistory struct {
         Subuserid string `json:"subuserid"`
         Chain     string `json:"chain"`
