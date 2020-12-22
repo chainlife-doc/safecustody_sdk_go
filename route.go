@@ -10,6 +10,7 @@ package safecustody_sdk_go
 //withdraw_enabled			int		提币是否启用: 1=启用,0=未启用
 //deposit_confirm_count		int		充值入账确认数
 //need_memo					int		充值是否需要备注: 1=充值需要备注,0=充值不需要备注
+//api_key 					string  api访问公钥
 type QueryCoinConfBody struct {
 	Chain               string `json:"chain"`
 	Coin                string `json:"coin"`
@@ -108,7 +109,7 @@ func (a *Api) QueryBalance(coins []Coins) ([]QueryBalanceBody, error) {
 //coin		string	币名
 //subuserid	string	调用端子账号，字符串，平台不管其含义
 //addr		string	充币地址
-//needmemo	int		0:不需要，1需要，填写的memo字符串格式: "userid#subuserid#id"（id是申请的appid序号）
+//needmemo	int		0:不需要，1需要
 type GetDepositAddrBody struct {
 	Chain     string `json:"chain"`
 	Coin      string `json:"coin"`
@@ -160,6 +161,7 @@ func (a *Api) GetDepositAddr(coins []AddrCoins) ([]GetDepositAddrBody, error) {
 //amount	string	充值数量
 //balance	string	充值后余额
 //time		string	订单生成时间
+//api_key   string  api访问公钥
 type GetDepositHistoryBody struct {
 	Id        int64  `json:"id"`
 	Subuserid string `json:"subuserid"`
@@ -171,6 +173,7 @@ type GetDepositHistoryBody struct {
 	Amount    string `json:"amount"`
 	Balance   string `json:"balance"`
 	Time      string `json:"time"`
+	ApiKey    string `json:"api_key"`
 }
 
 //获取充值记录的请求参数
@@ -213,9 +216,9 @@ type queryIsInternalAddrBody struct {
 }
 
 //内部地址查询请求参数
-//chain	string	主链
-//coin	string	币名
-//addr	string	地址
+//chain		string	主链
+//coin		string	币名
+//addr		string	地址
 type QueryIsInternalAddr struct {
 	Coin  string `json:"coin"`
 	Chain string `json:"chain"`
@@ -256,8 +259,8 @@ func (a *Api) QueryIsInternalAddr(param QueryIsInternalAddr) (bool, error) {
 //addr				string	提币接收地址
 //amount			string	提币数量
 //amount_sent		string	实际发送的提币数量
-//memo				string	提币备注，比如用户ID之类的，可以是任意内容
-//status			int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+//memo				string	该字段主要提供给链上支持备注的币种，内容会更新到链上
+//status			int		提币状态: 0=无效状态,1=准备发送,2=发送中,3=发送成功,4=发送失败,5=待确认
 //status_desc		string	状态描述
 //txid				string	链上的交易ID
 //fee_coin      	string  手续费币种
@@ -265,6 +268,8 @@ func (a *Api) QueryIsInternalAddr(param QueryIsInternalAddr) (bool, error) {
 //fee_amount    	string  手续费数量
 //usertags			string	用户标签
 //time				string	订单创建时间
+//api_key   		string api访问公钥
+//user_orderid		string 用户系统流水号ID
 type SubmitWithdrawBody struct {
 	Id           int64  `json:"id"`
 	Subuserid    string `json:"subuserid"`
@@ -283,24 +288,28 @@ type SubmitWithdrawBody struct {
 	FeeAmount    string `json:"fee_amount"`
 	Usertags     string `json:"usertags"`
 	Time         string `json:"time"`
+	ApiKey       string `json:"api_key"`
+	UserOrderId  string `json:"user_orderid"`
 }
 
 //提交提币工单请求参数
-//subuserid	string	调用端子账号，字符串，平台不管其含义
-//chain		string	主链
-//coin		string	币名
-//addr		int		提币目标地址
-//amount	float	提币数量
-//memo		string	用户备注,内容自定义（会记录到区块链上）
-//usertags	string	用户标签，内容自定义 （不会记录到区块链上）
+//subuserid		string	调用端子账号，字符串，平台不管其含义
+//chain			string	主链
+//coin			string	币名
+//addr			int		提币目标地址
+//amount		float	提币数量
+//memo			string	该字段主要提供给链上支持备注的币种，内容会更新到链上
+//user_orderid 	string 用户自定义订单ID，该字段主要是填写用户系统的订单流水号，字段具有唯一性（可选字段)
+//usertags		string	用户标签, 自定义内容，一般作为订单备注使用,辅助说明
 type SubmitWithdraw struct {
-	Subuserid string  `json:"subuserid"`
-	Chain     string  `json:"chain"`
-	Coin      string  `json:"coin"`
-	Addr      string  `json:"addr"`
-	Amount    float64 `json:"amount"`
-	Memo      string  `json:"memo"`
-	Usertags  string  `json:"usertags"`
+	Subuserid   string  `json:"subuserid"`
+	Chain       string  `json:"chain"`
+	Coin        string  `json:"coin"`
+	Addr        string  `json:"addr"`
+	Amount      float64 `json:"amount"`
+	Memo        string  `json:"memo"`
+	UserOrderid string  `json:"user_orderid"`
+	Usertags    string  `json:"usertags"`
 }
 
 //提交提币工单
@@ -342,35 +351,39 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 }
 
 //查询提币工单状态响应参数
-//id			int		内部充值序号
-//subuserid		string	调用端子账号，字符串，平台不管其含义
-//chain			string	哪条主链上充值进来的
-//coin			string	币名
-//from_addr		string	提币发送地址
-//addr			string	提币接收地址
-//amount		string	充值数量
-//amount_sent	string	实际发送的提币数量
-//memo			string	提币备注，比如用户ID之类的，可以是任意内容
-//status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
-//status_desc	string	状态描述
-//txid			string	链上的交易ID
-//usertags		string	用户标签
-//time			string	订单创建时间
+//id					int		内部充值序号
+//subuserid				string	调用端子账号，字符串，平台不管其含义
+//chain					string	哪条主链上充值进来的
+//coin					string	币名
+//from_addr				string	提币发送地址
+//addr					string	提币接收地址
+//amount				string	充值数量
+//amount_sent			string	实际发送的提币数量
+//memo					string	该字段主要提供给链上支持备注的币种,内容会更新到链上
+//status				int		提币状态:  0=无效状态,1=准备发送,2=发送中,3=发送成功,4=发送失败,5=待确认
+//status_desc			string	状态描述
+//txid					string	链上的交易ID
+//usertags				string	用户标签
+//time					string	订单创建时间
+//user_orderid			string	用户系统流水号ID
+//api_key       		string  api访问公钥
 type QueryWithdrawStatusBody struct {
-	Id         int    `json:"id"`
-	Subuserid  string `json:"subuserid"`
-	Chain      string `json:"chain"`
-	Coin       string `json:"coin"`
-	FromAddr   string `json:"from_addr"`
-	Addr       string `json:"addr"`
-	Amount     string `json:"amount"`
-	AmountSent string `json:"amount_sent"`
-	Memo       string `json:"memo"`
-	Status     int    `json:"status"`
-	StatusDesc string `json:"status_desc"`
-	Txid       string `json:"txid"`
-	Usertags   string `json:"usertags"`
-	Time       string `json:"time"`
+	Id          int    `json:"id"`
+	Subuserid   string `json:"subuserid"`
+	Chain       string `json:"chain"`
+	Coin        string `json:"coin"`
+	FromAddr    string `json:"from_addr"`
+	Addr        string `json:"addr"`
+	Amount      string `json:"amount"`
+	AmountSent  string `json:"amount_sent"`
+	Memo        string `json:"memo"`
+	Status      int    `json:"status"`
+	StatusDesc  string `json:"status_desc"`
+	Txid        string `json:"txid"`
+	Usertags    string `json:"usertags"`
+	UserOrderid string `json:"user_orderid"`
+	Time        string `json:"time"`
+	ApiKey      string `json:"api_key"`
 }
 
 //查询提币工单状态请求参数
@@ -411,27 +424,31 @@ func (a *Api) QueryWithdrawStatus(param QueryWithdrawStatus) (QueryWithdrawStatu
 //addr			string	提币接收地址
 //amount		string	充值数量
 //amount_sent	string	实际发送的提币数量
-//memo			string	提币备注，比如用户ID之类的，可以是任意内容
-//status		int		提币状态: 1=准备发送,2=发送中,3=发送成功,4=发送失败,5=发送已取消
+//memo			string	该字段主要提供给链上支持备注的币种,内容会更新到链上
+//status		int		提币状态:  0=无效状态,1=准备发送,2=发送中,3=发送成功,4=发送失败,5=待确认
 //status_desc	string	状态描述
 //txid			string	链上的交易ID
 //usertags		string	用户标签
 //time			string	订单创建时间
+//user_orderid	string	用户系统流水号ID
+//api_key 		string  api访问公钥
 type QueryWithdrawHistoryBody struct {
-	Id         int    `json:"id"`
-	Subuserid  string `json:"subuserid"`
-	Chain      string `json:"chain"`
-	Coin       string `json:"coin"`
-	FromAddr   string `json:"from_addr"`
-	Addr       string `json:"addr"`
-	Amount     string `json:"amount"`
-	AmountSent string `json:"amount_sent"`
-	Memo       string `json:"memo"`
-	Status     int    `json:"status"`
-	StatusDesc string `json:"status_desc"`
-	Txid       string `json:"txid"`
-	Usertags   string `json:"usertags"`
-	Time       string `json:"time"`
+	Id          int    `json:"id"`
+	Subuserid   string `json:"subuserid"`
+	Chain       string `json:"chain"`
+	Coin        string `json:"coin"`
+	FromAddr    string `json:"from_addr"`
+	Addr        string `json:"addr"`
+	Amount      string `json:"amount"`
+	AmountSent  string `json:"amount_sent"`
+	Memo        string `json:"memo"`
+	Status      int    `json:"status"`
+	StatusDesc  string `json:"status_desc"`
+	Txid        string `json:"txid"`
+	Usertags    string `json:"usertags"`
+	UserOrderid string `json:"user_orderid"`
+	Time        string `json:"time"`
+	ApiKey      string `json:"api_key"`
 }
 
 //查询提币记录请求参数
@@ -464,4 +481,31 @@ func (a *Api) QueryWithdrawHistory(param QueryWithdrawHistory) ([]QueryWithdrawH
 	var arr []QueryWithdrawHistoryBody
 	err := a.request("withdraw/history.php", d, &arr)
 	return arr, err
+}
+
+//取消提币工单请求参数
+//subuserid		string	子账号，平台不管其含义（空字符串默认不做筛选）
+//chain			string	主链
+//coin			string	币名
+//withdrawid	int64 	订单ID
+type WithdrawCancel struct {
+	Subuserid  string `json:"subuserid"`
+	Chain      string `json:"chain"`
+	Coin       string `json:"coin"`
+	Withdrawid int64  `json:"withdrawid"`
+}
+
+//取消提币接口
+//https://github.com/chainlife-doc/wallet-api/blob/master/withdraw/%E5%8F%96%E6%B6%88%E6%8F%90%E5%B8%81%E6%8E%A5%E5%8F%A3.md
+func (a *Api) WithdrawCancel(param WithdrawCancel) error {
+	p := struct {
+		WithdrawCancel
+		Auth auth `json:"auth"`
+	}{
+		param,
+		a.getAuth(),
+	}
+	d := a.buildParam(p)
+	err := a.request("/withdraw/cancel.php", d, nil)
+	return err
 }

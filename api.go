@@ -11,38 +11,40 @@ type Api struct {
 	Host      string
 	user      UserInfo
 	timestamp int64
+	ApiKey    string
 }
 
 //用户信息
 type UserInfo struct {
-	appid  string
-	salt   string
-	userId string
+	appId     string
+	secretKey string
+	userId    string
 }
 
 //auth
 type auth struct {
 	Token     string `json:"token"`
 	Timestamp int64  `json:"timestamp"`
+	ApiKey    string `json:"api_key"`
 }
 
 //用来发送给服务器的请求参数
 type param struct {
 	Data     interface{} `json:"data"`
-	Appid    string      `json:"appid"`
+	AppId    string      `json:"appid"`
 	Cryptype int         `json:"cryptype"`
 }
 
 //设置用户信息
-func (a *Api) SetUserInfo(appid, salt, userId string) {
-	a.user.appid = appid
-	a.user.salt = salt
+func (a *Api) SetUserInfo(appId, secretKey, userId string) {
+	a.user.appId = appId
+	a.user.secretKey = secretKey
 	a.user.userId = userId
 }
 
 //设置token
 func (a *Api) setToken(s string) string {
-	str := a.user.appid + "_" + a.user.salt + "_" + a.user.userId + "_" + s
+	str := a.user.appId + "_" + a.user.secretKey + "_" + a.user.userId + "_" + s
 	return Md5(str)
 }
 
@@ -53,6 +55,7 @@ func (a *Api) getAuth() auth {
 	return auth{
 		Token:     a.setToken(s),
 		Timestamp: a.timestamp,
+		ApiKey:    a.ApiKey,
 	}
 }
 
@@ -60,13 +63,13 @@ func (a *Api) getAuth() auth {
 func (a *Api) buildParam(data interface{}) param {
 	return param{
 		Data:  data,
-		Appid: a.user.appid,
+		AppId: a.user.appId,
 	}
 }
 
 //提币的签名
 func (a *Api) WithdrawSign(addr, memo, usertags string) string {
-	s := a.user.appid + "_" + a.user.salt + "_" + a.user.userId + "_" + fmt.Sprint(a.timestamp) + "_" + addr + "_" + memo + "_" + usertags
+	s := a.user.appId + "_" + a.user.secretKey + "_" + a.user.userId + "_" + fmt.Sprint(a.timestamp) + "_" + addr + "_" + memo + "_" + usertags
 	return Md5(s)
 }
 
