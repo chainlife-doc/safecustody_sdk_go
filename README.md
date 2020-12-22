@@ -275,11 +275,11 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 #### 获取充值地址
  - Response
      ```go
-    //chain	string	主链
-    //coin	string	币名
+    //chain	    string	主链
+    //coin	    string	币名
     //subuserid	string	调用端子账号，字符串，平台不管其含义
-    //addr	string	充币地址
-    //needmemo	int	0:不需要，1需要，填写的memo字符串格式: "userid#subuserid#id"（id是申请的appid序号）
+    //addr	    string	充币地址
+    //needmemo	int	0:不需要，1需要
     type GetDepositAddrBody struct {
     	Chain     string `json:"chain"`
     	Coin      string `json:"coin"`
@@ -449,8 +449,9 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
     //coin	string	币名
     //addr	int	提币目标地址
     //amount	float	提币数量
-    //memo	string	用户备注,内容自定义（会记录到区块链上）
-    //usertags	string	用户标签，内容自定义 （不会记录到区块链上）
+    //memo	string	该字段主要提供给链上支持备注的币种，内容会更新到链上
+    //UserOrderid string 用户自定义订单ID，该字段主要是填写用户系统的订单流水号，字段具有唯一性（可选字段)
+    //usertags	string	用户标签, 自定义内容，一般作为订单备注使用,辅助说明
     type SubmitWithdraw struct {
         Subuserid string  `json:"subuserid"`
         Chain     string  `json:"chain"`
@@ -459,6 +460,7 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
         Amount    float64 `json:"amount"`
         Memo      string  `json:"memo"`
         Usertags  string  `json:"usertags"`
+        UserOrderid string  `json:"user_orderid"`
     } 
     ```
 - Function
