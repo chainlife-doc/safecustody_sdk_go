@@ -70,7 +70,8 @@
     
     api := new(sdk.Api)
     
-    api.Host = "https://www.xxxx.com/"  //请向微信群里面的官方人员获取
+    //TODO 请向微信群里面的官方人员获取
+    api.Host = "https://www.xxxx.com/"  
 
     //api访问公钥
 	api.ApiKey = ""
@@ -78,7 +79,7 @@
     api.SetUserInfo(
         "", //对应商户后台的APPID
         "", //对应商户后台的SECRETKEY
-        "", //userid 请向微信群里面的官方人员获取
+        "", //userid 对应商户后台的商户id
      )      
 
 ``` 
