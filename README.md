@@ -73,7 +73,7 @@
     //TODO 请向微信群里面的官方人员获取
     api.Host = "https://www.xxxx.com/"  
 
-    //api访问公钥
+    //对应商户后台的APIKEY
 	api.ApiKey = ""
 
     api.SetUserInfo(

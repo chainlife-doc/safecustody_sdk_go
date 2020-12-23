@@ -20,7 +20,7 @@ func main() {
 	//TODO 请向微信群里面的官方人员获取
 	api.Host = ""
 
-	//api访问公钥
+	//对应商户后台的APIKEY
 	api.ApiKey = ""
 
 	//设置用户信息
