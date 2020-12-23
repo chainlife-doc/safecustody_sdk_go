@@ -20,14 +20,12 @@ func main() {
 	//TODO 请向微信群里面的官方人员获取
 	api.Host = ""
 
-	//对应商户后台的APIKEY
-	api.ApiKey = ""
-
 	//设置用户信息
 	api.SetUserInfo(
 		"", //对应商户后台的APPID
 		"", //对应商户后台的SECRETKEY
 		"", //userid 对应商户后台的商户ID
+		"", //对应商户后台的APIKEY
 	)
 
 	//单个币种查询

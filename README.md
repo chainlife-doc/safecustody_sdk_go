@@ -51,13 +51,11 @@
     
     api.Host = "https://www.xxxx.com/"  //请向微信群里面的官方人员获取
 
-    //api访问公钥
-	api.ApiKey = ""
-
     api.SetUserInfo(
         "", //对应商户后台的APPID
         "", //对应商户后台的SECRETKEY
         "", //userid;对应商户后台的商户id
+        "",//对应商户后台的APIKEY
      )       
 
 ``` 
@@ -80,6 +78,7 @@
         "", //对应商户后台的APPID
         "", //对应商户后台的SECRETKEY
         "", //userid 对应商户后台的商户id
+        "",//对应商户后台的APIKEY
      )      
 
 ``` 
