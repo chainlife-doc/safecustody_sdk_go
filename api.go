@@ -44,7 +44,7 @@ func (a *Api) SetUserInfo(appId, secretKey, userId string) {
 
 //设置token
 func (a *Api) setToken(s string) string {
-	str := a.user.appId + "_" + a.user.secretKey + "_" + a.user.userId + "_" + s
+	str := a.ApiKey + "_" + a.user.secretKey + "_" + a.user.userId + "_" + s
 	return Md5(str)
 }
 

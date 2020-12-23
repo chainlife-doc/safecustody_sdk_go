@@ -23,7 +23,7 @@ type QueryCoinConfBody struct {
 	NeedMemo            int    `json:"need_memo"`
 }
 
-//查询公共币种信息
+//查询全部币种
 //https://github.com/chainlife-doc/wallet-api/blob/master/%E6%9F%A5%E8%AF%A2%E5%B8%81%E7%A7%8D%E4%BF%A1%E6%81%AF.md
 func (a *Api) QueryCoins() ([]QueryCoinConfBody, error) {
 
@@ -110,12 +110,14 @@ func (a *Api) QueryBalance(coins []Coins) ([]QueryBalanceBody, error) {
 //subuserid	string	调用端子账号，字符串，平台不管其含义
 //addr		string	充币地址
 //needmemo	int		0:不需要，1需要
+//memo 		string 如果充值需要填写备注，这个字段会列出需要的备注
 type GetDepositAddrBody struct {
 	Chain     string `json:"chain"`
 	Coin      string `json:"coin"`
 	Subuserid string `json:"subuserid"`
 	Addr      string `json:"addr"`
 	NeedMemo  string `json:"needmemo"`
+	Memo      string `json:"memo"`
 }
 
 //获取提笔地址的请求参数
@@ -289,7 +291,6 @@ type SubmitWithdrawBody struct {
 	Usertags     string `json:"usertags"`
 	Time         string `json:"time"`
 	ApiKey       string `json:"api_key"`
-	UserOrderId  string `json:"user_orderid"`
 }
 
 //提交提币工单请求参数
@@ -299,7 +300,7 @@ type SubmitWithdrawBody struct {
 //addr			int		提币目标地址
 //amount		float	提币数量
 //memo			string	该字段主要提供给链上支持备注的币种，内容会更新到链上
-//user_orderid 	string 用户自定义订单ID，该字段主要是填写用户系统的订单流水号，字段具有唯一性（可选字段)
+//user_orderid 	string  该字段主要是填写用户系统的订单流水号,字段具有唯一性（可选字段)
 //usertags		string	用户标签, 自定义内容，一般作为订单备注使用,辅助说明
 type SubmitWithdraw struct {
 	Subuserid   string  `json:"subuserid"`
