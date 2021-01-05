@@ -324,7 +324,7 @@ func (a *Api) SubmitWithdraw(param SubmitWithdraw) (SubmitWithdrawBody, error) {
 	}{
 		param,
 		a.getAuth(),
-		a.WithdrawSign(param.Addr, param.Memo, param.Usertags),
+		a.WithdrawSign(param.Addr, param.Memo, param.Usertags, param.UserOrderid),
 	}
 	d := a.buildParam(p)
 
@@ -343,7 +343,7 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 	}{
 		param,
 		a.getAuth(),
-		a.WithdrawSign(param.Addr, param.Memo, param.Usertags),
+		a.WithdrawSign(param.Addr, param.Memo, param.Usertags, param.UserOrderid),
 	}
 
 	d := a.buildParam(p)

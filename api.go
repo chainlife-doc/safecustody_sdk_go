@@ -69,8 +69,14 @@ func (a *Api) buildParam(data interface{}) param {
 }
 
 //提币的签名
-func (a *Api) WithdrawSign(addr, memo, usertags string) string {
-	s := a.user.apiKey + "_" + a.user.secretKey + "_" + a.user.userId + "_" + fmt.Sprint(a.timestamp) + "_" + addr + "_" + memo + "_" + usertags
+func (a *Api) WithdrawSign(addr, memo, usertags, userOrderid string) string {
+
+	var str string
+	if userOrderid != "" {
+		str = "_" + userOrderid
+	}
+
+	s := a.user.apiKey + "_" + a.user.secretKey + "_" + a.user.userId + "_" + fmt.Sprint(a.timestamp) + "_" + addr + "_" + memo + "_" + usertags + str
 	return Md5(s)
 }
 
