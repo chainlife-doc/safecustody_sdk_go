@@ -164,18 +164,24 @@ func (a *Api) GetDepositAddr(coins []AddrCoins) ([]GetDepositAddrBody, error) {
 //balance	string	充值后余额
 //time		string	订单生成时间
 //api_key   string  api访问公钥
+//height    string  交易高度
+//status	int 	状态值(0: 无效状态，1: 正常入帐, 2: 待入帐)
+//status_desc string 状态值描述
 type GetDepositHistoryBody struct {
-	Id        int64  `json:"id"`
-	Subuserid string `json:"subuserid"`
-	Chain     string `json:"chain"`
-	Coin      string `json:"coin"`
-	FromAddr  string `json:"from_addr"`
-	Addr      string `json:"addr"`
-	Txid      string `json:"txid"`
-	Amount    string `json:"amount"`
-	Balance   string `json:"balance"`
-	Time      string `json:"time"`
-	ApiKey    string `json:"api_key"`
+	Id         int64  `json:"id"`
+	Subuserid  string `json:"subuserid"`
+	Chain      string `json:"chain"`
+	Coin       string `json:"coin"`
+	FromAddr   string `json:"from_addr"`
+	Addr       string `json:"addr"`
+	Txid       string `json:"txid"`
+	Amount     string `json:"amount"`
+	Balance    string `json:"balance"`
+	Time       string `json:"time"`
+	ApiKey     string `json:"api_key"`
+	Height     string `json:"height"`
+	Status     int    `json:"status"`
+	StatusDesc string `json:"status_desc"`
 }
 
 //获取充值记录的请求参数
@@ -368,6 +374,7 @@ func (a *Api) ValidateWithdraw(param SubmitWithdraw) error {
 //time					string	订单创建时间
 //user_orderid			string	用户系统流水号ID
 //api_key       		string  api访问公钥
+//height   			 	string  交易高度
 type QueryWithdrawStatusBody struct {
 	Id          int    `json:"id"`
 	Subuserid   string `json:"subuserid"`
@@ -385,6 +392,7 @@ type QueryWithdrawStatusBody struct {
 	UserOrderid string `json:"user_orderid"`
 	Time        string `json:"time"`
 	ApiKey      string `json:"api_key"`
+	Height      string `json:"height"`
 }
 
 //查询提币工单状态请求参数
@@ -433,6 +441,7 @@ func (a *Api) QueryWithdrawStatus(param QueryWithdrawStatus) (QueryWithdrawStatu
 //time			string	订单创建时间
 //user_orderid	string	用户系统流水号ID
 //api_key 		string  api访问公钥
+//height 		string  交易高度
 type QueryWithdrawHistoryBody struct {
 	Id          int    `json:"id"`
 	Subuserid   string `json:"subuserid"`
@@ -450,6 +459,7 @@ type QueryWithdrawHistoryBody struct {
 	UserOrderid string `json:"user_orderid"`
 	Time        string `json:"time"`
 	ApiKey      string `json:"api_key"`
+	Height      string `json:"height"`
 }
 
 //查询提币记录请求参数
@@ -509,4 +519,34 @@ func (a *Api) WithdrawCancel(param WithdrawCancel) error {
 	d := a.buildParam(p)
 	err := a.request("/withdraw/cancel.php", d, nil)
 	return err
+}
+
+//查询区块高度响应
+type BlockHeightBody struct {
+	Height   string `json:"height"`
+	UpdateOn string `json:"update_on"`
+}
+
+//查询区块高度
+//chain			string	主链
+//coin			string	币名
+type BlockHeight struct {
+	Chain string `json:"chain"`
+	Coin  string `json:"coin"`
+}
+
+//查询区块高度
+//https://github.com/chainlife-doc/wallet-api/blob/master/%E6%9F%A5%E8%AF%A2%E5%B8%81%E7%A7%8D%E8%8A%82%E7%82%B9%E9%AB%98%E5%BA%A6.md
+func (a *Api) BlockHeight(param BlockHeight) (BlockHeightBody, error) {
+	p := struct {
+		BlockHeight
+		Auth auth `json:"auth"`
+	}{
+		param,
+		a.getAuth(),
+	}
+	d := a.buildParam(p)
+	arr := BlockHeightBody{}
+	err := a.request("/blockheight.php", d, &arr)
+	return arr, err
 }
