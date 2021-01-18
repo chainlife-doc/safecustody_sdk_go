@@ -60,29 +60,6 @@
 
 ``` 
 
-#### 创建sdkApi`源码方式`  
- ```
-    package main
-    
-    import sdk "safecustody_sdk_go"
-    
-    api := new(sdk.Api)
-    
-    //TODO 请向微信群里面的官方人员获取
-    api.Host = "https://www.xxxx.com/"  
-
-    //对应商户后台的APIKEY
-	api.ApiKey = ""
-
-    api.SetUserInfo(
-        "", //对应商户后台的APPID
-        "", //对应商户后台的SECRETKEY
-        "", //userid 对应商户后台的商户id
-        "",//对应商户后台的APIKEY
-     )      
-
-``` 
-
 #### 单个币种查询
 ```go
 r1, err := api.QueryCoinConf("btc")
@@ -179,6 +156,13 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 		Coin:       "",
 		Withdrawid: 0,
 	})
+```
+
+#### 查询区块高度
+```go
+	r, err := api.BlockHeight(sdk.BlockHeight{Chain: "btc", Coin: "btc"})
+	fmt.Println(r)
+	fmt.Println(err)
 ```
 
 # Api接口
@@ -323,6 +307,9 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
     //balance	string	充值后余额
     //time	string	订单生成时间
     //api_key   string  api访问公钥
+    //height    string  交易高度
+    //status	int 	状态值(0: 无效状态，1: 正常入帐, 2: 待入帐)
+    //status_desc string 状态值描述
     type GetDepositHistoryBody struct {
         Id        int64  `json:"id"`
         Subuserid string `json:"subuserid"`
@@ -335,6 +322,9 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
         Balance   string `json:"balance"`
         Time      string `json:"time"`
         ApiKey    string `json:"api_key"`
+        Height     string `json:"height"`
+        Status     int    `json:"status"`
+        StatusDesc string `json:"status_desc"`
     }
     ```
 - Request
@@ -489,6 +479,7 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
     //time					string	订单创建时间
     //user_orderid			string	用户系统流水号ID
     //api_key       		string  api访问公钥
+    //height   			 	string  交易高度
     type QueryWithdrawStatusBody struct {
 	    Id         int    `json:"id"`
 	    Subuserid  string `json:"subuserid"`
@@ -506,6 +497,7 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 	    UserOrderid string `json:"user_orderid"`
 	    Time       string `json:"time"`
 	    ApiKey     string `json:"api_key"`
+        Height      string `json:"height"`
     }
     ```
 - Request  
@@ -542,6 +534,7 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
     //user_orderid	string	用户系统流水号ID
     //time		string	订单创建时间
     //api_key 		string  api访问公钥
+    //height 		string  交易高度
     type QueryWithdrawHistoryBody struct {
         Id         int    `json:"id"`
         Subuserid  string `json:"subuserid"`
@@ -559,6 +552,7 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
         UserOrderid string `json:"user_orderid"`
         Time       string `json:"time"`
         ApiKey     string `json:"api_key"`
+        Height     string `json:"height"`
     }
     ```
 - Request
@@ -598,4 +592,26 @@ r10, err := api.QueryWithdrawHistory(sdk.QueryWithdrawHistory{
 - Function
 ```go
 func (a *Api) WithdrawCancel(param WithdrawCancel) error
+```
+
+#### 查询区块高度
+- Response
+```go
+//查询区块高度响应
+//update_on 更新时间
+//height 节点高度
+type BlockHeightBody struct {
+	Height   string `json:"height"`
+	UpdateOn string `json:"update_on"`
+}
+```
+- Request
+```go
+//查询区块高度
+//chain			string	主链
+//coin			string	币名
+type BlockHeight struct {
+	Chain string `json:"chain"`
+	Coin  string `json:"coin"`
+}
 ```

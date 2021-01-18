@@ -123,4 +123,9 @@ func main() {
 	if err != nil {
 		log.Fatalln("取消失败" + err.Error())
 	}
+
+	//查询区块高度
+	r, err := api.BlockHeight(sdk.BlockHeight{Chain: "btc", Coin: "btc"})
+	fmt.Println(r)
+	fmt.Println(err)
 }

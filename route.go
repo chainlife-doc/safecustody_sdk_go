@@ -522,6 +522,8 @@ func (a *Api) WithdrawCancel(param WithdrawCancel) error {
 }
 
 //查询区块高度响应
+//update_on 更新时间
+//height 节点高度
 type BlockHeightBody struct {
 	Height   string `json:"height"`
 	UpdateOn string `json:"update_on"`
